@@ -17,5 +17,9 @@ fs = require "fs"
 module.exports = try
   JSON.parse fs.readFileSync("#{__dirname}/../../config.json")
 catch e
-  console.warn "Error loading config.json", e
-  {}
+  console.warn "Error loading config.json, looking for it in the env", e
+  try
+    JSON.parse process.env.COUCH
+  catch e
+    console.warn "Could not find that config anywhere."
+    {}
